@@ -3,6 +3,7 @@ import profilePhoto from "../../public/profile.jpg";
 import Nav from "@/components/Nav";
 import Reveal from "@/components/Reveal";
 import CopyEmail from "@/components/CopyEmail";
+import CertificateGallery from "@/components/Certificates";
 import Link from "next/link";
 import { getProjectAssets } from "@/lib/projectFiles";
 import {
@@ -30,6 +31,7 @@ export default function Home() {
         <Projects />
         <Skills />
         <Education />
+        <Certificates />
         <Contact />
       </main>
       <Footer />
@@ -55,8 +57,8 @@ function SectionHeading({ eyebrow, title, intro }: { eyebrow: string; title: Rea
 const STAT_ICONS = [
   // Projects: folder
   <path key="p" d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />,
-  // Titles analyzed: bar chart
-  <path key="c" d="M4 20V10M10 20V4M16 20v-7M22 20H2" />,
+  // Core tools: stacked layers
+  <path key="t" d="M12 2 2 7l10 5 10-5zM2 12l10 5 10-5M2 17l10 5 10-5" />,
   // GPA: graduation cap
   <path key="g" d="M2 9l10-5 10 5-10 5zM6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" />,
   // Certificates: badge
@@ -168,7 +170,7 @@ function About() {
             {stats.map((s, i) => (
               <div
                 key={s.label}
-                className="card flex items-center gap-4 p-5 transition duration-300 hover:-translate-y-0.5 hover:border-accent/40"
+                className="card flex items-start gap-4 p-5 transition duration-300 hover:-translate-y-0.5 hover:border-accent/40"
               >
                 <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-lg bg-accent/10 text-accent">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -298,13 +300,13 @@ function Skills() {
   );
 }
 
-/* ---------- Education, certificates, languages ---------- */
+/* ---------- Education and languages ---------- */
 
 function Education() {
   return (
     <section id="education" className="py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-6">
-        <SectionHeading eyebrow="04 · Background" title="Education & credentials." />
+        <SectionHeading eyebrow="04 · Background" title="Education & languages." />
 
         <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
           <Reveal className="card p-8">
@@ -337,28 +339,6 @@ function Education() {
 
           <div className="grid gap-6">
             <Reveal delay={100} className="card p-8">
-              <h3 className="font-medium">Certificates</h3>
-              <ul className="mt-5 space-y-4">
-                {certificates.map((c) => (
-                  <li key={c.title} className="flex items-start gap-3">
-                    <span
-                      aria-hidden="true"
-                      className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-md bg-accent/15 text-accent"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                        <path d="M5 12l5 5L20 7" />
-                      </svg>
-                    </span>
-                    <div>
-                      <div className="text-sm">{c.title}</div>
-                      <div className="text-xs text-muted">{c.issuer}</div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-
-            <Reveal delay={180} className="card p-8">
               <h3 className="font-medium">Languages</h3>
               <ul className="mt-5 space-y-4">
                 {languages.map((l) => (
@@ -390,40 +370,144 @@ function Education() {
   );
 }
 
+/* ---------- Certificates ---------- */
+
+function Certificates() {
+  return (
+    <section id="certificates" className="py-24 sm:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <SectionHeading
+          eyebrow="05 · Certificates"
+          title="Verified credentials."
+          intro={`${certificates.length} certificates from Google, IBM and DeepLearning.AI. Click a certificate to enlarge it or verify it on Coursera.`}
+        />
+        <Reveal delay={80}>
+          <CertificateGallery items={certificates} />
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- Contact ---------- */
+
+/* Contact methods shown as cards on the right of the contact panel */
+const CONTACT_METHODS: { label: string; value: string; href?: string; icon: React.ReactNode }[] = [
+  {
+    label: "Email",
+    value: profile.email,
+    href: `mailto:${profile.email}`,
+    icon: <path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5zM3.5 6l8.5 7 8.5-7" />,
+  },
+  {
+    label: "Phone",
+    value: profile.phoneDisplay,
+    href: `tel:${profile.phoneIntl}`,
+    icon: <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />,
+  },
+  {
+    label: "Location",
+    value: profile.location,
+    icon: <path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />,
+  },
+  {
+    label: "Availability",
+    value: profile.availability,
+    icon: <path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 10h16M8 3v4M16 3v4M9 15l2 2 4-4" />,
+  },
+];
 
 function Contact() {
   return (
     <section id="contact" className="py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-6">
-        <Reveal className="card relative overflow-hidden px-6 py-16 text-center sm:px-16 sm:py-24">
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-            <div className="absolute inset-0 bg-grid" />
-            <div className="absolute -bottom-40 left-1/2 h-80 w-[600px] -translate-x-1/2 rounded-full bg-accent/25 blur-[100px]" />
-          </div>
-          <div className="relative">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">05 · Contact</p>
-            <h2 className="mx-auto mt-4 max-w-3xl font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl">
-              Let&apos;s build something <em className="text-gradient">insightful</em> together.
-            </h2>
-            <p className="mx-auto mt-6 max-w-xl text-lg text-muted">
-              Open to junior data analyst and BI roles. {profile.availability}.
-            </p>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-              <a
-                href={`mailto:${profile.email}`}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent to-[#c026d3] px-6 py-3 text-sm font-medium text-white shadow-lg shadow-accent/25 transition hover:brightness-110"
-              >
-                {profile.email}
-              </a>
-              <CopyEmail email={profile.email} />
-              <a
-                href={`tel:${profile.phoneIntl}`}
-                className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-3 text-sm transition hover:border-accent/40 hover:bg-soft"
-              >
-                {profile.phone}
-              </a>
+        <Reveal className="card overflow-hidden p-2">
+          <div className="grid gap-2 lg:grid-cols-[1.15fr_1fr]">
+            {/* Message + primary actions */}
+            <div className="relative isolate overflow-hidden rounded-xl bg-gradient-to-br from-soft via-surface-2 to-surface px-6 py-12 sm:px-10 sm:py-14">
+              <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+                <div className="absolute inset-0 bg-grid" />
+                <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-accent/20 blur-[90px]" />
+                <div className="absolute -right-20 -bottom-28 h-72 w-72 rounded-full bg-accent-2/15 blur-[90px]" />
+              </div>
+
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">06 · Contact</p>
+              <h2 className="mt-4 max-w-xl font-display text-4xl leading-[1.08] tracking-tight sm:text-5xl">
+                Let&apos;s turn your data into <em className="text-gradient">clear decisions</em>.
+              </h2>
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-muted sm:text-lg">
+                I&apos;m looking for junior data analyst and BI roles where I can clean, model and visualize data that
+                helps teams act. If you have a role or project in mind, I&apos;d be glad to hear about it.
+              </p>
+
+              <ul className="mt-7 flex flex-wrap gap-2" aria-label="Roles I'm open to">
+                {["Data Analyst", "BI Analyst", "Reporting & Dashboards"].map((r) => (
+                  <li
+                    key={r}
+                    className="rounded-full border border-line bg-surface/80 px-3 py-1 text-xs font-medium text-foreground/80"
+                  >
+                    {r}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-10 flex flex-wrap items-center gap-3">
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent to-[#c026d3] px-6 py-3 text-sm font-medium text-white shadow-lg shadow-accent/25 transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  Send me an email <span aria-hidden="true">&rarr;</span>
+                </a>
+                <CopyEmail email={profile.email} />
+              </div>
             </div>
+
+            {/* Contact details */}
+            <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+              {CONTACT_METHODS.map((m) => {
+                const body = (
+                  <>
+                    <span
+                      aria-hidden="true"
+                      className="grid size-11 shrink-0 place-items-center rounded-lg bg-accent/10 text-accent transition group-hover:bg-accent group-hover:text-white"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        {m.icon}
+                      </svg>
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-xs font-medium uppercase tracking-wider text-muted">{m.label}</span>
+                      <span className="mt-0.5 block break-words text-sm font-medium text-foreground">{m.value}</span>
+                    </span>
+                    {m.href && (
+                      <span
+                        aria-hidden="true"
+                        className="grid size-8 shrink-0 place-items-center rounded-full border border-line text-muted transition group-hover:border-accent group-hover:text-accent"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M7 17 17 7M8 7h9v9" />
+                        </svg>
+                      </span>
+                    )}
+                  </>
+                );
+                const base = "flex h-full items-center gap-4 rounded-xl border border-line bg-surface px-5 py-5";
+                return (
+                  <li key={m.label}>
+                    {m.href ? (
+                      <a
+                        href={m.href}
+                        className={`group ${base} transition duration-300 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md hover:shadow-accent/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`}
+                      >
+                        {body}
+                      </a>
+                    ) : (
+                      <div className={base}>{body}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </Reveal>
       </div>

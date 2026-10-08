@@ -10,6 +10,7 @@ export const profile = {
   email: "linlehshweyie@gmail.com",
   phone: "0964062359",
   phoneIntl: "+66964062359",
+  phoneDisplay: "+66 96 406 2359",
   availability: "Available full-time from November 2026",
   summary:
     "Final-year Information Technology student at Assumption University of Thailand specializing in Informatics and Data Science. I turn raw data into clear, actionable business insights with SQL, Python, Power BI and Tableau.",
@@ -21,7 +22,7 @@ export const profile = {
 
 export const stats = [
   { value: "4", label: "End-to-end projects" },
-  { value: "8,807", label: "Netflix titles analyzed" },
+  { value: "4", label: "Core analytics tools" },
   { value: "3.36", label: "Current GPA / 4.00" },
   { value: "3", label: "Professional certificates" },
 ];
@@ -137,10 +138,53 @@ export const education = {
   ],
 };
 
-export const certificates = [
-  { title: "Google Data Analytics Professional", issuer: "Coursera" },
-  { title: "Python for Data Science, AI & Development", issuer: "Coursera" },
-  { title: "AI For Everyone", issuer: "Coursera" },
+export type Certificate = {
+  title: string;
+  /** Organization that authored the course */
+  provider: string;
+  /** Platform that issued the certificate */
+  issuer: string;
+  /** e.g. "Professional Certificate · 9 courses" */
+  kind: string;
+  date: string;
+  /** Rendered preview in public/certificates/ */
+  image: string;
+  /** Original PDF in public/certificates/ */
+  pdf: string;
+  verifyUrl: string;
+};
+
+export const certificates: Certificate[] = [
+  {
+    title: "Google Data Analytics",
+    provider: "Google",
+    issuer: "Coursera",
+    kind: "Professional Certificate · 9 courses",
+    date: "Feb 14, 2026",
+    image: "/certificates/google-data-analytics.png",
+    pdf: "/certificates/google-data-analytics.pdf",
+    verifyUrl: "https://coursera.org/verify/professional-cert/DKUQSF8HL5YX",
+  },
+  {
+    title: "Python for Data Science, AI & Development",
+    provider: "IBM",
+    issuer: "Coursera",
+    kind: "Course Certificate",
+    date: "Feb 14, 2026",
+    image: "/certificates/python-for-data-science.png",
+    pdf: "/certificates/python-for-data-science.pdf",
+    verifyUrl: "https://coursera.org/verify/CZFRB3F63KO4",
+  },
+  {
+    title: "AI For Everyone",
+    provider: "DeepLearning.AI",
+    issuer: "Coursera",
+    kind: "Course Certificate",
+    date: "Feb 16, 2026",
+    image: "/certificates/ai-for-everyone.png",
+    pdf: "/certificates/ai-for-everyone.pdf",
+    verifyUrl: "https://coursera.org/verify/QEZ2GHFH1MLV",
+  },
 ];
 
 export const languages = [

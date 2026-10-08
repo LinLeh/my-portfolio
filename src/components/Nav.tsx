@@ -9,6 +9,7 @@ const links = [
   { href: "/#projects", label: "Projects" },
   { href: "/#skills", label: "Skills" },
   { href: "/#education", label: "Education" },
+  { href: "/#certificates", label: "Certificates" },
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -71,13 +72,6 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-
-        <a
-          href="mailto:linlehshweyie@gmail.com"
-          className="hidden rounded-lg bg-accent px-4 py-1.5 text-sm font-medium text-white transition hover:bg-[#be185d] md:inline-flex"
-        >
-          Hire me
-        </a>
 
         <button
           type="button"
